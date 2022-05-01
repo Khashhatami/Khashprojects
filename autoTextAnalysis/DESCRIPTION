@@ -14,8 +14,7 @@ Description:  This package accepts txt files, and after cleaning them up
     These analytics functions include : 1. creating a word cloud to highlight the most important words
     2.Utilizing lexicon_bing dictionary to give a ration of negative and positive words to the user as well 
     as a char that shows that ratio.
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+License: CC0
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
