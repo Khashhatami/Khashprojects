@@ -1,0 +1,20 @@
+Package: autoTextAnalysis
+Title: Cleans up text and perfrom basic text analysis 
+Version: 0.0.0.9000
+Imports:
+  	XML(>= 3.99-0.9),
+    tm(>= 0.7-8),
+    wordcloud(>= 2.6),
+    tidytext (>= 0.3.2)
+Authors@R: 
+    person("Khashayar", "Hatami", , "khatami@usf.edu", role = c("aut", "cre"),
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description:  This package accepts txt files, and after cleaning them up
+    (removing stop words, punctucations, etc), conducts basic semantic analytics on them. 
+    These analytics functions include : 1. creating a word cloud to highlight the most important words
+    2.Utilizing lexicon_bing dictionary to give a ration of negative and positive words to the user as well 
+    as a char that shows that ratio.
+License: CC0
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
