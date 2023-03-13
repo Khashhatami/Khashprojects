@@ -1,0 +1,16 @@
+#the link to dataset: https://www.kaggle.com/datasets/mohamedbakrey/abortion-statistics-year-ended-december-2019?select=as-dec19-abortion-rates-by-age-of-woman.csv
+abortion <- read.csv("abortion rate.csv")
+
+# summarize the dataset
+summary(abortion)
+
+# describe the dataset
+str(abortion)
+
+# Load the necessary library
+library(ggplot2)
+
+# Create the line plot
+ggplot(abortion, aes(x = Period, y = Abortion_rate, group = Age_of_woman, color = Age_of_woman)) +
+  geom_line() +
+  labs(x = "Period", y = "Abortion Rate", title = "Line plot of Abortion Rate vs. Period by Age Group")
