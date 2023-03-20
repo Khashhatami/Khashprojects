@@ -2,7 +2,7 @@ library(dplyr)
 library(ggplot2)
 
 # create a data frame with state names and death rates
-overdoses <- read.csv("C:\\Users\\wecan\\Desktop\\Data base concepts\\Data visualization\\week 6\\overdoses.csv")
+overdoses <- read.csv("C:\\Users\\Desktop\\Data base concepts\\Data visualization\\week 6\\overdoses.csv")
 overdoses$Deaths <- gsub(",", "", overdoses$Deaths)
 overdoses$Deaths <- as.numeric(overdoses$Deaths)
 overdoses$Population <- gsub(",", "", overdoses$Population)
