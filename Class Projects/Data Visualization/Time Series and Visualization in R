@@ -1,0 +1,23 @@
+# Load packages
+library(datasets)
+library(ggplot2)
+library(tidyr)
+
+# Load data
+data(EuStockMarkets)
+
+# Convert to long format
+df <- EuStockMarkets %>%
+  as_tibble(rownames = "date") %>%
+  pivot_longer(-date, names_to = "index", values_to = "price")
+
+# Convert date to numeric
+df$date <- as.numeric(df$date)
+
+# Make plot
+ggplot(df, aes(x = date, y = price)) +
+  geom_line(aes(color = index), size = 1) +
+  labs(x = "Date", y = "Closing price",
+       title = "Daily closing prices of major European stock indices",
+       subtitle = "Source: datasets package") +
+  theme_minimal()
