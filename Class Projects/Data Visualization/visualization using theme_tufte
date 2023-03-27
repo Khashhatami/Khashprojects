@@ -1,0 +1,9 @@
+library(ggplot2)
+library(ggthemes)
+
+data(diamonds, package = "ggplot2")
+
+ggplot(diamonds, aes(x = carat, y = price)) +
+  geom_point(alpha = 0.5) +
+  theme_tufte() +
+  labs(title = "Diamonds dataset", x = "Carat", y = "Price")
