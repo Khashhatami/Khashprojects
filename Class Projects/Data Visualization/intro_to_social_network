@@ -1,0 +1,21 @@
+# Load packages
+library(igraph)
+library(GGally)
+
+# Create a sample data frame of nodes and links
+nodes <- data.frame(name = c("A", "B", "C", "D", "E"),
+                    group = c(1, 1, 2, 2, 3))
+links <- data.frame(from = c("A", "A", "B", "C", "C", "D"),
+                    to = c("B", "C", "C", "D", "E", "E"),
+                    weight = c(1, 2, 3, 4, 5, 6))
+
+# Create a network object from the data frame
+net <- graph.data.frame(links, vertices = nodes)
+
+# Plot the network with ggnet2
+ggnet2(net,
+       node.color = "group",
+       node.size = "degree",
+       edge.size = "weight",
+       edge.color = "grey",
+       edge.label = "weight")
