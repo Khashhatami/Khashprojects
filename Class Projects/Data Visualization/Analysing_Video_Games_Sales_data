@@ -1,0 +1,96 @@
+# Download the dataset
+#download.file("https://www.kaggle.com/datasets/gregorut/videogamesales/download?datasetVersionNumber=2", "vgsales.csv")
+
+# Load the dataset
+vgsales <- read.csv("vgsales.csv")
+
+#line bar 
+# Install and load ggplot2
+install.packages("ggplot2")
+library(ggplot2)
+
+# Create a summary table of global sales by genre
+sales_by_genre <- aggregate(Global_Sales ~ Genre, data = vgsales, sum)
+
+# Sort the summary table by descending order of global sales
+sales_by_genre_sorted <- sales_by_genre[order(-sales_by_genre$Global_Sales), ]
+
+# Create the bar chart
+ggplot(data = sales_by_genre_sorted, aes(x = Genre, y = Global_Sales)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  labs(x = "Genre", y = "Global Sales (in millions)", title = "Total Global Sales by Genre") +
+  theme_minimal()
+
+# Save the plot as an image file
+ggsave("bar_chart.png")
+
+#### Heat Map
+
+# Create a summary table of global sales by genre and region
+sales_by_genre_region <- aggregate(cbind(NA_Sales, EU_Sales, JP_Sales, Other_Sales) ~ Genre, data = vgsales, sum)
+
+# Install and load tidyr
+install.packages("tidyr")
+library(tidyr)
+
+# Reshape the summary table into a long format
+sales_by_genre_region_long <- sales_by_genre_region %>%
+  pivot_longer(cols = c(NA_Sales, EU_Sales, JP_Sales, Other_Sales), names_to = "Region", values_to = "Sales")
+
+# Create the heatmap
+ggplot(data = sales_by_genre_region_long, aes(x = Genre, y = Region, fill = Sales)) +
+  geom_tile() +
+  labs(x = "Genre", y = "Region", fill = "Sales (in millions)", title = "Total Global Sales by Genre and Region") +
+  theme_minimal() +
+  scale_fill_gradient(low = "white", high = "red")
+
+# Save the plot as an image file
+ggsave("heatmap.png")
+
+
+### stacked bar chart
+# Install and load dplyr
+install.packages("dplyr")
+library(dplyr)
+
+# Create a summary table of global sales by genre and platform
+sales_by_genre_platform <- aggregate(Global_Sales ~ Genre + Platform, data = vgsales, sum)
+
+# Filter the data to show only the top 10 platforms by global sales
+sales_by_genre_platform_filtered <- sales_by_genre_platform %>%
+  group_by(Platform) %>%
+  summarise(Total_Sales = sum(Global_Sales)) %>%
+  top_n(n = 10, wt = Total_Sales) %>%
+  inner_join(sales_by_genre_platform, by = "Platform")
+
+# Create the stacked bar chart with filtered data
+ggplot(data = sales_by_genre_platform_filtered, aes(x = Genre, y = Global_Sales, fill = Platform)) +
+  geom_bar(stat = "identity") +
+  labs(x = "Genre", y = "Global Sales (in millions)", fill = "Platform", title = "Total Global Sales by Genre and Platform") +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Set3")
+
+# Save the plot as an image file
+ggsave("stacked_bar_chart.png")
+
+## Line Chart
+# Remove the rows with missing values from the vgsales dataset
+vgsales_clean <- na.omit(vgsales)
+
+# Load the tidyverse package for data manipulation and visualization
+library(tidyverse)
+
+# Convert the Year column to numeric
+vgsales_clean$Year <- as.numeric(vgsales_clean$Year)
+
+# Group the vgsales_clean by Year and Genre and calculate the sum of Global_Sales
+vgsales_clean_by_year_genre <- summarise(group_by(vgsales_clean, Year, Genre), Global_Sales = sum(Global_Sales))
+
+# Create a line chart showing the total global sales by year, with different lines for each genre
+ggplot(vgsales_clean_by_year_genre, aes(x = Year, y = Global_Sales, color = Genre)) +
+  geom_line() +
+  labs(title = "Total Global Sales by Year and Genre",
+       x = "Year",
+       y = "Global Sales (in millions)",
+       color = "Genre")
+
